@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: "DejaVu Sans", Arial, sans-serif; font-size: 12px; }
+    h1 { font-size: 16px; text-align: center; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    td, th { border: 1px solid #000; padding: 4px; }
+  </style>
+</head>
+<body>
+  <h1>Счет-договор № {{ contract_number }} поставки товара</h1>
+  <p>{{ city }} &nbsp;&nbsp;&nbsp; "{{ contract_date }}"</p>
+
+  <p>
+    ИНДИВИДУАЛЬНЫЙ ПРЕДПРИНИМАТЕЛЬ {{ supplier_name }},
+    ИНН {{ supplier_inn }}, ОГРНИП {{ supplier_ogrnip }},
+    адрес: {{ supplier_address }} (далее — Поставщик),
+    и {{ buyer_name }}, ИНН {{ buyer_inn }}, адрес: {{ buyer_address }}
+    (далее — Покупатель), заключили настоящий Счет-договор о нижеследующем.
+  </p>
+
+  <p>Наименование поставляемой продукции:</p>
+  <table>
+    <tr>
+      <th>№</th><th>Наименование</th><th>Ед.</th><th>Кол-во</th><th>Цена</th><th>Сумма</th>
+    </tr>
+    {% for item in items %}
+    <tr>
+      <td>{{ item.num }}</td>
+      <td>{{ item.name }}</td>
+      <td>{{ item.unit }}</td>
+      <td>{{ item.qty }}</td>
+      <td>{{ "%.2f"|format(item.price) }}</td>
+      <td>{{ "%.2f"|format(item.amount) }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <p>Общая сумма Счета-договора составляет {{ "%.2f"|format(total) }} руб.</p>
+  <p>
+    Срок и порядок оплаты: аванс {{ advance_percent }}%, в размере
+    {{ "%.2f"|format(advance_amount) }} руб., остаток — по факту поставки.
+  </p>
+  <p>Срок поставки: {{ delivery_days }} дней с момента оплаты аванса.</p>
+
+  <br><br>
+  <table>
+    <tr><td><b>Поставщик</b></td><td><b>Покупатель</b></td></tr>
+    <tr>
+      <td>{{ supplier_name }}<br>ИНН {{ supplier_inn }}<br>{{ supplier_bank }}<br>{{ supplier_account }}</td>
+      <td>{{ buyer_name }}<br>ИНН {{ buyer_inn }}<br>{{ buyer_address }}</td>
+    </tr>
+    <tr><td>_______________</td><td>_______________</td></tr>
+  </table>
+</body>
+</html>
